@@ -1,0 +1,52 @@
+<div class="main-content">
+  <div class="mat-elevation-z8">
+    <div style="width: 100%; text-align: center; padding: 5px">
+      <h2>{{ testDescription }}</h2>
+    </div>
+    <mat-card>
+      <mat-card-content style="min-height: 200px">
+        <div *ngIf="attempts && attempts.length > 0" style="
+            display: flex;
+            flex-direction: row;
+            flex: 1;
+            justify-content: space-between;
+          ">
+          <div style="display: flex; flex: 1">&nbsp;</div>
+          <div *ngFor="let qResult of attempts[0].result; let i = index"
+            style="width: 60px; display: flex; justify-content: center">
+            <span style="font-weight: bold">Q{{ i + 1 }}</span>
+          </div>
+        </div>
+
+        <div *ngFor="let attempt of attempts; let i = index" style="display: flex; flex-direction: row; flex: 1">
+          <div style="display: flex; flex: 1; font-weight: bold;"> {{ attempt.userName }} <span style="padding-left: 10px;" *ngIf="userID != null">Attempt # {{ i + 1 }}.</span></div>
+          <div *ngFor="let qResult of attempt.result" style="width: 60px; display: flex; justify-content: center">
+            <mat-icon *ngIf="qResult?.isCorrect" style="color: green">check</mat-icon>
+            <mat-icon *ngIf="!qResult?.isCorrect" style="color: red">close</mat-icon>
+          </div>
+        </div>
+
+        <div style="
+            display: flex;
+            flex-direction: row;
+            flex: 1;
+            height: 50px;
+            margin-top: 16px;
+            border-top: 1px solid lightgray;
+          ">
+          <div style="display: flex; flex: 1; align-items: center">
+            Historic % of Correct Answers
+          </div>
+          <div *ngFor="let qResult of attemptStats; let i = index" style="
+              width: 60px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            ">
+            <span *ngIf="qResult >= 0" style="font-weight: bold">{{ qResult }}%</span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

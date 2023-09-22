@@ -1,0 +1,30 @@
+<div class="main-content">
+  <div class="mat-elevation-z8">
+    <mat-card>
+      <mat-card-content>
+        <form class="dataform" [formGroup]="categoryDetailsForm">
+          <mat-form-field appearance="fill">
+            <mat-label>Category name</mat-label>
+            <input matInput required formControlName="categoryName" />
+            <mat-error *ngIf="categoryDetailsForm.get('categoryName')?.errors">
+              {{ showErrorMessage("categoryName") }}
+            </mat-error>
+          </mat-form-field>
+          <br /><br />
+          <mat-checkbox formControlName="active">Active</mat-checkbox>
+        </form>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-flat-button (click)="closeForm()">Cancel</button>
+        <button
+          mat-flat-button
+          color="primary"
+          (click)="saveCategory()"
+          [disabled]="!categoryDetailsForm.valid || !categoryDetailsForm.dirty"
+        >
+          Save
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

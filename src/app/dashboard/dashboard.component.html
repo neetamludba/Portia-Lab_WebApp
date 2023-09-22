@@ -1,0 +1,112 @@
+<div class="main-content">
+  <div class="mat-elevation-z8">
+    <mat-card style="margin-bottom: 16px">
+      <mat-card-title>Category Wise Scores</mat-card-title>
+      <mat-card-content class="content_card" style="min-height: 200px" *ngIf="users && categoryWiseData">
+        <div class="report_header">
+          <div class="title_row">
+            <div style="font-weight: bold; width: 150px">&nbsp;</div>
+            <div class="user_row">
+              <div *ngFor="let user of users" class="user_col" style="font-weight: bold">
+                {{ user.firstName + " " + user.lastName }}
+              </div>
+            </div>
+          </div>
+          <div class="title_row">
+            <div style="font-weight: bold; width: 150px">&nbsp;</div>
+            <div class="user_row">
+              <div *ngFor="let user of users" class="user_col">
+                {{ "Complete | Score" }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngFor="let catrow of categoryWiseData" class="category_row">
+          <div style="display: flex; flex: 1; flex-direction: row">
+            <div style="display: flex; font-weight: bold; width: 150px">
+              {{ catrow.categoryName }}
+            </div>
+            <div style="display: flex; flex-direction: column; flex: 1">
+              <div class="attempts_section">
+                <div *ngFor="let user of users" class="attempt_col">
+
+                  <span [ngClass]="{
+                      'red': getUserCategoryProgress(user, catrow.userWiseProgress) !== '100.00%', 
+                      'blue': getUserCategoryProgress(user, catrow.userWiseProgress) === '100.00%'}">
+                    {{getUserCategoryProgress(user, catrow.userWiseProgress)}}
+                  </span>
+                  <span>&nbsp;|&nbsp;</span>
+                  <span [ngClass]="{
+                    'red': getUserCategoryScore(user, catrow.userWiseScores) !== '100.00%', 
+                    'blue': getUserCategoryScore(user, catrow.userWiseScores) === '100.00%'}">
+                    {{getUserCategoryScore(user, catrow.userWiseScores)}}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card>
+      <mat-card-title>Test Wise Score</mat-card-title>
+      <mat-card-content class="content_card" style="min-height: 200px" *ngIf="users && data">
+        <div class="report_header">
+          <div class="title_row">
+            <div style="font-weight: bold; width: 300px">&nbsp;</div>
+            <div class="user_row">
+              <div *ngFor="let user of users" class="user_col" style="font-weight: bold">
+                {{ user.firstName + " " + user.lastName }}
+              </div>
+            </div>
+          </div>
+          <div class="title_row">
+            <div style="font-weight: bold; width: 300px">&nbsp;</div>
+            <div class="user_row">
+              <div *ngFor="let user of users" class="user_col">
+                {{ "Assigned | Attempts | Score" }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngFor="let catrow of data" class="category_row">
+          <div style="display: flex; flex: 1; flex-direction: row">
+            <div style="display: flex; font-weight: bold; width: 150px">
+              {{ catrow.categoryName }}
+            </div>
+            <div style="display: flex; flex-direction: column; flex: 1">
+              <div *ngFor="let test of catrow.tests" class="test_row">
+                <div style="width: 130px; padding-left: 20px;">
+                  {{ test.description }}
+                </div>
+                <div class="attempts_section">
+                  <div *ngFor="let user of users" class="attempt_col">
+                    <ng-container *ngIf="test && user">
+
+                      <button mat-mini-fab
+                        [color]="getAssignmentsForUser(test, user.userID) !== getAttemptsForUser(test, user.userID) ? 'accent' : 'primary'"
+                        (click)="gotoAssignmentsOfUser(test, user)"
+                        [disabled]="getAssignmentsForUser(test, user.userID) == '-' || getAssignmentsForUser(test, user.userID) == 0">
+                        {{ getAssignmentsForUser(test, user.userID) }}
+                      </button>
+                      <button mat-mini-fab
+                        [color]="getAssignmentsForUser(test, user.userID) !== getAttemptsForUser(test, user.userID) ? 'accent' : 'primary'"
+                        (click)="gotoAttemptsStatisticsOfUser(test, user)"
+                        [disabled]="getAttemptsForUser(test, user.userID) == '-' || getAttemptsForUser(test, user.userID) == 0">
+                        {{ getAttemptsForUser(test, user.userID) }}
+                      </button>
+                      <button mat-mini-fab [color]="getUserTestScore(user, test) !== '100' ? 'accent' : 'primary'"
+                        (click)="gotoAttemptDetailOfUser(test, user)" [disabled]="getUserTestScore(user, test) == '-' ">
+                        {{ getUserTestScore(user, test) }}
+                      </button>
+                    </ng-container>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

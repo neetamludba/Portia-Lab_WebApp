@@ -1,0 +1,67 @@
+.content_card div {
+  display: flex;
+}
+
+.report_header {
+  flex: 1;
+  flex-direction: column;
+  border-bottom: 1px solid black;
+  padding: 8px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.title_row {
+  flex: 1;
+  flex-direction: row;
+}
+
+.user_row {
+  flex-direction: row;
+  flex: 1;
+  margin-left: 8px;
+}
+
+.user_col {
+  flex: 1;
+  border-left: 1px solid #cdcdcd;
+  justify-content: center;
+  padding: 5px;
+}
+
+.category_row {
+  flex: 1;
+  flex-direction: column;
+  border-bottom: 1px solid #cdcdcd;
+  padding: 8px;
+}
+
+.test_row {
+  flex-direction: row;
+  flex: 1;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.attempts_section {
+  flex-direction: row;
+  flex: 1;
+  margin-left: 8px;
+}
+
+.attempt_col {
+  flex: 1;
+  border-left: 1px solid #cdcdcd;
+  justify-content: center;
+  padding: 5px;
+}
+
+/* red - Marks less than 100 */
+.red {
+  color: red;
+}
+
+/* blue - Marks equal to 100 */
+.blue {
+  color: blue;
+}
