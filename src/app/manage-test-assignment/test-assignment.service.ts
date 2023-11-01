@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { GetService, SaveService } from 'app/globals/api';
-import { TestAssignment } from 'app/models/test-assignment.model';
 
 @Injectable({
   providedIn: 'root',

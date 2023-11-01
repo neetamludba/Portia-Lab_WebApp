@@ -1,8 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TestService } from 'app/manage-test/test.service';
 
 import { TestAttemptService } from '../test-attempt.service';
+import { MatTableDataSource } from '@angular/material/table';
+import { User } from 'app/models/user.model';
+import { UserService } from 'app/manage-user/user.service';
+import { MatSort } from '@angular/material/sort';
+import { TestAssignmentService } from 'app/manage-test-assignment/test-assignment.service';
 
 @Component({
   selector: 'app-test-attempt-stats',
@@ -13,7 +18,9 @@ export class TestAttemptStatsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private readonly testService: TestService,
-    private readonly testAttemptService: TestAttemptService
+    private readonly testAttemptService: TestAttemptService,
+    private userService: UserService,
+    private assignmentService: TestAssignmentService
   ) { }
 
   attempts: any;
@@ -22,15 +29,42 @@ export class TestAttemptStatsComponent implements OnInit {
   userID: any = null;
   totalAttempts: number = 0;
 
+  allAssignments: any = [];
+
+  displayedColumns: string[] = ['userName', 'totalAssignments', 'totalAttempts', 'totalMCQAttempted'];
+
+  dataSource = new MatTableDataSource<User>([]);
+
+  @ViewChild(MatSort)
+  sort: MatSort = new MatSort();
+
   ngOnInit(): void {
     let id = Number(this.route.snapshot.paramMap.get('id'));
     this.filterByParams()
     if (!isNaN(id) && id > 0) {
       this.getTestDetails(id);
       this.getAllAttempts(id);
+      this.getAssignments(id);
+
+
+      this.userService.getAllUsers().then((users) => {
+        this.dataSource = new MatTableDataSource<User>(users);
+        this.dataSource.sort = this.sort;
+      });
     }
   }
 
+  async getAssignments(testID: number) {
+
+    const assignments = await this.assignmentService.getAllAssignmentsForTest(testID);
+    console.log({ assignments });
+    this.allAssignments = assignments;
+
+  }
+
+  public doFilter(value: string) {
+    this.dataSource.filter = value.trim().toLocaleLowerCase();
+  }
   getTestDetails(testID: number) {
     this.testService
       .getTest(testID)
@@ -38,8 +72,8 @@ export class TestAttemptStatsComponent implements OnInit {
       .catch((err) => console.log(err));
   }
 
-  getAllAttempts(testID: number) {
-    this.testAttemptService
+  async getAllAttempts(testID: number) {
+    await this.testAttemptService
       .getAllAttemptsForTest(testID)
       .then((attemptsDetail) => {
         console.log({ attemptsDetail });
@@ -89,5 +123,31 @@ export class TestAttemptStatsComponent implements OnInit {
       // Call the filter method with the user name
       this.userID = userID;
     }
+  }
+
+  getTotalAssignments(userId: number) {
+    const totalUserAssignment = this.allAssignments.filter((a: any) => a.assignedToID == userId)
+    return totalUserAssignment.length
+  }
+
+  getTotalAttempted(userId: number) {
+    const totalUserAttempts = this.attempts.filter((a: any) => a.userID == userId)
+    return totalUserAttempts.length
+  }
+
+  getTotalMCQsAttempted(userId: number) {
+    const userAttempts = this.attempts.filter((a: any) => a.userID == userId);
+    let totalMCQ = 0;
+    if (userAttempts) {
+      userAttempts.forEach((attempt: any) => {
+
+        totalMCQ += attempt.result.length;
+
+      })
+      return totalMCQ
+    }
+    else
+      return totalMCQ;
+
   }
 }

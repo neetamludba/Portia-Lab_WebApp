@@ -40,7 +40,7 @@ export class TestAssignmentDetailComponent implements OnInit {
   }
 
   changeUser(e: any) {
-    this.assignmentDetailsForm.setValue({ assginedTo: e.target.value });
+    this.assignmentDetailsForm.setValue({ assignedTo: e.target.value });
   }
 
   addAssignment() {

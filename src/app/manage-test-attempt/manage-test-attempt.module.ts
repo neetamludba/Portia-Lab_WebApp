@@ -1,10 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
 import { MyAttemptListComponent } from './my-attempt-list/my-attempt-list.component';
 import { TestAttemptDetailsComponent } from './test-attempt-details/test-attempt-details.component';
+import { ViewTestAttemptComponent } from './view-test-attempt/view-test-attempt.component';
+import { TestAttemptStatsComponent } from './test-attempt-stats/test-attempt-stats.component';
 
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatError, MatFormFieldModule } from '@angular/material/form-field';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -17,8 +20,6 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
-import { ViewTestAttemptComponent } from './view-test-attempt/view-test-attempt.component';
-import { TestAttemptStatsComponent } from './test-attempt-stats/test-attempt-stats.component';
 
 @NgModule({
   declarations: [MyAttemptListComponent, TestAttemptDetailsComponent, ViewTestAttemptComponent, TestAttemptStatsComponent],
