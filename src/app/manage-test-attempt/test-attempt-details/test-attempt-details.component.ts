@@ -39,6 +39,7 @@ export class TestAttemptDetailsComponent implements OnInit {
   answers: Answer[] = [];
   testName: string = '';
   currentQuestionIndex = -1;
+  loadingFinishButton = false;
 
   ngOnInit(): void {
     let id = Number(this.route.snapshot.paramMap.get('id'));
@@ -104,6 +105,7 @@ export class TestAttemptDetailsComponent implements OnInit {
   }
 
   submitAttempt() {
+    this.loadingFinishButton = true;
     const answers = this.answersArray.controls.map((answer, index: number) => {
       // console.log('#' + index + ': ', answer);
 
@@ -145,10 +147,12 @@ export class TestAttemptDetailsComponent implements OnInit {
         testAssignmentID: this.assignment.testAssignmentID,
         answers: answers,
       })
-      .then(() =>
+      .then(() => {
+        this.loadingFinishButton = false
         this.router.navigateByUrl('mytests').catch((error) => {
           console.log(error);
         })
+      }
       )
       .catch((ex) => console.log(ex));
   }

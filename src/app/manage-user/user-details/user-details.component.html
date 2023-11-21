@@ -35,17 +35,23 @@
             </mat-error>
           </mat-form-field>
           <br /><br />
+          <mat-form-field appearance="fill">
+            <mat-label>User Role</mat-label>
+            <mat-select (change)="changeRole($event)" formControlName="userType">
+              <mat-option>None</mat-option>
+              <mat-option *ngFor="let r of roles" [value]="r">
+                {{ r }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <br /><br />
           <mat-checkbox formControlName="active">Active</mat-checkbox>
         </form>
       </mat-card-content>
       <mat-card-actions>
         <button mat-flat-button (click)="closeForm()">Cancel</button>
-        <button
-          mat-flat-button
-          color="primary"
-          (click)="saveUser()"
-          [disabled]="!userDetailsForm.valid || !userDetailsForm.dirty"
-        >
+        <button mat-flat-button color="primary" (click)="saveUser()"
+          [disabled]="!userDetailsForm.valid || !userDetailsForm.dirty">
           Save
         </button>
       </mat-card-actions>

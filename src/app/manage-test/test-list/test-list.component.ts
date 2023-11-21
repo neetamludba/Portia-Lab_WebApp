@@ -3,17 +3,9 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { TestService } from '../test.service';
-import { TestCategory } from 'app/manage-test-category/category-list/category-list.component';
+import { TestCategory } from 'app/models/test-category.model'; 
 import { TestCategoryService } from 'app/manage-test-category/test-category.service';
-
-export interface Test {
-  testID: number;
-  description: string;
-  companyID: number;
-  categoryID: number;
-  active: boolean;
-  createdDate: string;
-}
+import { Test } from 'app/models/test.model';
 
 @Component({
   selector: 'app-test-list',

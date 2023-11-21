@@ -5,4 +5,5 @@ export interface SessionUser {
   email: string;
   registerationDate: Date;
   companyID: number;
+  userType: string;
 }

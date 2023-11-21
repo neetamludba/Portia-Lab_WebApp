@@ -14,6 +14,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 import { UserDetailsComponent } from './user-details/user-details.component';
+import { MatSelectModule } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [UserListComponent, UserDetailsComponent],
@@ -28,6 +30,8 @@ import { UserDetailsComponent } from './user-details/user-details.component';
     MatCheckboxModule,
     MatCardModule,
     MatButtonModule,
+    MatSelectModule,
+    MatOptionModule,
     ReactiveFormsModule,
     RouterModule,
   ],

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../user.service';
+import { AccountService } from 'app/account/account.service';
 
 @Component({
   selector: 'app-user-details',
@@ -12,8 +13,9 @@ export class UserDetailsComponent implements OnInit {
   constructor(
     private userService: UserService,
     private route: ActivatedRoute,
-    private router: Router
-  ) {}
+    private router: Router,
+    private accountService: AccountService,
+  ) { }
 
   userDetailsForm = new FormGroup({
     email: new FormControl(null, [Validators.required, Validators.email]),
@@ -25,24 +27,41 @@ export class UserDetailsComponent implements OnInit {
       Validators.required,
       Validators.minLength(5),
     ]),
-    
+
     password: new FormControl(null, [
       Validators.required,
       Validators.minLength(5),
     ]),
-    active: new FormControl(true),
+
+    userType: new FormControl(''),
+
+    active: new FormControl(true)
   });
 
   userId: number = 0;
+  roles = [''];
 
   ngOnInit(): void {
     let id = Number(this.route.snapshot.paramMap.get('id'));
+    let crntUser = this.accountService.userValue;
+    if (crntUser.userType === 'Admin' && crntUser.companyID === -1) {
+      this.roles = ['Admin', 'Teacher', 'Student', 'Guardian'];
+    }
+    else if (crntUser.userType === 'Admin') {
+      this.roles = ['Teacher', 'Student', 'Guardian'];
+    }
+    else if (crntUser.userType === 'Teacher') {
+      this.roles = ['Student', 'Guardian'];
+    }
 
     if (!isNaN(id) && id > 0) {
       this.userId = id;
       this.getUser(this.userId);
     }
   }
+
+
+
 
   showErrorMessage(fieldName: string) {
     let errors = this.userDetailsForm.get(fieldName)?.errors;
@@ -56,6 +75,10 @@ export class UserDetailsComponent implements OnInit {
     } else return '';
   }
 
+  changeRole(r: any) {
+    this.userDetailsForm.setValue({ userType: r.target.value });
+  }
+
   getUser(userId: number) {
     this.userService.getUser(userId).then((user) => {
       this.userDetailsForm.setValue({
@@ -63,6 +86,7 @@ export class UserDetailsComponent implements OnInit {
         firstName: user.firstName,
         lastName: user.lastName,
         password: user.strKey,
+        userType: user.userType,
         active: user.active,
       });
 
@@ -81,6 +105,7 @@ export class UserDetailsComponent implements OnInit {
           lastName: this.userDetailsForm.get('lastName')?.value,
           password: this.userDetailsForm.get('password')?.value,
           strKey: this.userDetailsForm.get('password')?.value,
+          userType: this.userDetailsForm.get('userType')?.value,
           active: Boolean(this.userDetailsForm.get('active')?.value),
         },
         this.userId

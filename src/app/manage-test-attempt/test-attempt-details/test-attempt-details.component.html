@@ -56,9 +56,11 @@
           [disabled]="!answerControl(currentQuestionIndex).valid" *ngIf="currentQuestionIndex < questions.length - 1">
           Next
         </button>
-        <button mat-flat-button color="primary" (click)="submitAttempt()"
+        <button mat-flat-button color="primary" (click)="submitAttempt()" [disabled]="loadingFinishButton"
           *ngIf="currentQuestionIndex == questions.length - 1">
-          Finish
+          <span *ngIf="!loadingFinishButton">Finish</span>
+          <span *ngIf="loadingFinishButton">Please wait...</span>
+          <mat-spinner *ngIf="loadingFinishButton"></mat-spinner>
         </button>
       </mat-card-actions>
     </mat-card>

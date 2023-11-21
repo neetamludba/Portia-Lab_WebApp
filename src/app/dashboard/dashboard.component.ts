@@ -23,12 +23,16 @@ export class DashboardComponent implements AfterViewInit {
   testWiseData: any;
   data: any;
 
+  runTestWise: boolean = false;
+  runCategoryWise: boolean = false;
+
   ngAfterViewInit() {
     let crntUser = this.accountService.userValue;
 
     if (crntUser) {
       if (!isNaN(crntUser.userID) && crntUser.userID > 0) {
-        if (crntUser.companyID === -1) {
+        // if (crntUser.companyID === -1) {
+        if (crntUser.userType === 'Admin' || crntUser.userType === 'Teacher' ||crntUser.companyID === -1) {
           {
             this.userService.getAllUsers().then((users) => {
               // console.log({ users });
@@ -36,7 +40,7 @@ export class DashboardComponent implements AfterViewInit {
             });
 
             this.dashboardService.getAdminData().then((dashboardData) => {
-              console.log({ dashboardData });
+              // console.log({ dashboardData });
               this.data = dashboardData;
             });
 
@@ -45,6 +49,7 @@ export class DashboardComponent implements AfterViewInit {
               .then((categoryWiseData) => {
                 // console.log({ categoryWiseData });
                 this.categoryWiseData = categoryWiseData;
+                this.runCategoryWise = true;
               });
 
             this.dashboardService
@@ -52,6 +57,7 @@ export class DashboardComponent implements AfterViewInit {
               .then((testWiseData) => {
                 // console.log({ testWiseData });
                 this.testWiseData = testWiseData;
+                this.runTestWise = true;
               });
           }
         } else {
@@ -69,75 +75,115 @@ export class DashboardComponent implements AfterViewInit {
             .then((categoryWiseData) => {
               // console.log({ categoryWiseData });
               this.categoryWiseData = categoryWiseData;
+              this.runCategoryWise = true;
             });
 
           this.dashboardService
             .getTestWiseUserScoresForUser(crntUser.userID)
             .then((testWiseData) => {
-              // console.log({ testWiseData });
+              console.log({ testWiseData });
               this.testWiseData = testWiseData;
+              this.runTestWise = true;
+
             });
         }
       }
     }
   }
 
+  assignmentsCache: { [key: string]: any } = {};
+
   getAssignmentsForUser(test: any, userId: number) {
-    // console.log(test)
-    if (test) {
-      if (test.assignments.length > 0) {
-        const userAssignment = test.assignments.filter(
-          (a: any) => a.assignedToID === userId
-        );
 
-        if (userAssignment.length) {
-          // console.log(userAssignment)
+    const cacheKey = `${test.testID}-${userId}`;
+    if (this.assignmentsCache[cacheKey] !== undefined) {
+      return this.assignmentsCache[cacheKey];
+    }
 
-          // if (userAssignment[userAssignment.length - 1].attempts.length > 0) {
-          //   return '✔'; // Tick symbol
-          // }
+    if (!test || test.assignments.length === 0) {
+      let result = '-'
+      this.assignmentsCache[cacheKey] = result;
+      return result;
+    }
 
-          // return '✘'; // Cross symbol
-          return userAssignment.length
-        } else {
-          return '-';
-        }
-      }
-      else {
-        return '-'
-      }
+    const userAssignment = test.assignments.filter(
+      (a: any) => a.assignedToID === userId
+    );
+
+    if (userAssignment.length) {
+      let result = userAssignment.length
+      this.assignmentsCache[cacheKey] = result;
+      return result;
     } else {
-      return '-';
+      let result = '-'
+      this.assignmentsCache[cacheKey] = result;
+      return result;
     }
   }
 
+  attemptsCache: { [key: string]: any } = {};
+
   getAttemptsForUser(test: any, userId: number) {
-    // console.log(test)
-    if (test) {
-      if (test.assignments.length > 0) {
-        const userAssignment = test.assignments.filter(
-          (a: any) => a.assignedToID === userId
-        );
+    const cacheKey = `${test.testID}-${userId}`;
+    if (this.attemptsCache[cacheKey] !== undefined) {
+      return this.attemptsCache[cacheKey];
+    }
 
-        if (userAssignment.length) {
-          let attemptCount = 0;
-          userAssignment.forEach((assignmets: { attempts: any; }) => {
-            if (assignmets.attempts.length === 1) {
-              attemptCount++
-            }
-          });
+    if (!test || test.assignments.length > 0) {
+      const userAssignment = test.assignments.filter(
+        (a: any) => a.assignedToID === userId
+      );
 
-          return attemptCount
-        } else {
-          return '-';
+      if (userAssignment.length) {
+        let attemptCount = 0;
+        userAssignment.forEach((assignmets: { attempts: any; }) => {
+          if (assignmets.attempts.length === 1) {
+            attemptCount++
+          }
+        });
+        this.attemptsCache[cacheKey] = attemptCount
+        return attemptCount
+      } else {
+        this.attemptsCache[cacheKey] = '-'
+        return '-';
+      }
+    }
+    else {
+      this.attemptsCache[cacheKey] = '-'
+      return '-'
+    }
+  }
+
+  scoresCache: { [key: string]: any } = {};
+
+  getUserTestScore(user: User, test: any) {
+    const cacheKey = `${user.userID}-${test.testID}`;
+    if (this.scoresCache[cacheKey] !== undefined) {
+      return this.scoresCache[cacheKey];
+    }
+
+    if (this.testWiseData) {// Check if testWiseData is defined and an array
+
+      const filteredTestWiseData = this.testWiseData.find(
+        (a: any) => test.description === a.testName
+      );
+
+      if (filteredTestWiseData) {
+        if (user && user.userID !== undefined && filteredTestWiseData.userWiseScores) {
+          const userScore = filteredTestWiseData.userWiseScores[user.userID];
+          if (userScore !== undefined) {
+            let score = (userScore * 100).toFixed(0);
+            this.scoresCache[cacheKey] = score
+            return score;
+          } else {
+            this.scoresCache[cacheKey] = '-'
+            return '-';
+          }
         }
       }
-      else {
-        return '-'
-      }
-    } else {
-      return '-';
     }
+    this.scoresCache[cacheKey] = '-'
+    return '-'
   }
 
   getUserCategoryProgress(user: User, userWiseProgress: any) {
@@ -152,29 +198,6 @@ export class DashboardComponent implements AfterViewInit {
     else return '-';
   }
 
-  getUserTestScore(user: User, test: any) { // Check if testWiseData is defined and an array
-    if (this.testWiseData) {
-      const filteredTestWiseData = this.testWiseData.find(
-        (a: any) => test.description === a.testName
-      );
-      // console.log(filteredTestWiseData)
-
-
-      if (filteredTestWiseData) {
-        // Check if user.userID is defined
-        // console.log(filteredTestWiseData.userWiseScores)
-        if (user && user.userID !== undefined && filteredTestWiseData.userWiseScores) {
-          const userScore = filteredTestWiseData.userWiseScores[user.userID];
-          if (userScore !== undefined) {
-            return (userScore * 100).toFixed(0);
-          } else {
-            return '-';
-          }
-        }
-      }
-    }
-    return '-'
-  }
 
   gotoAssignmentsOfUser(test: any, user: User) {
     const encodedUserName = encodeURIComponent(user.firstName + ' ' + user.lastName);

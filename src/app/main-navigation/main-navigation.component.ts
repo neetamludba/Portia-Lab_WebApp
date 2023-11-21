@@ -31,4 +31,12 @@ export class MainNavigationComponent {
   isSuperAdmin = () => {
     return this.user && this.user.companyID === -1;
   };
+
+  isAdmin = () => {
+    return this.user && this.user.userType === 'Admin';
+  };
+
+  isTeacher = () => {
+    return this.user && this.user.userType === 'Teacher';
+  };
 }

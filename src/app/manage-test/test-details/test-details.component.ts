@@ -1,13 +1,13 @@
-import { Component, Injectable, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TestService } from '../test.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { QuestionDetailsComponent } from 'app/manage-question/question-details/question-details.component';
 import { MatDialog } from '@angular/material/dialog';
 import { TestCategoryService } from 'app/manage-test-category/test-category.service';
-import { TestCategory } from 'app/manage-test-category/category-list/category-list.component';
+import { TestCategory } from 'app/models/test-category.model';
 import { Question } from 'app/models/question.model';
 
 @Component({
@@ -22,7 +22,7 @@ export class TestDetailsComponent {
     private route: ActivatedRoute,
     private router: Router,
     private dialog: MatDialog
-  ) {}
+  ) { }
 
   testDetailsForm = new FormGroup({
     description: new FormControl(null, [
@@ -147,6 +147,7 @@ export class TestDetailsComponent {
       }
     });
   }
+
 
   saveTest() {
     this.testService

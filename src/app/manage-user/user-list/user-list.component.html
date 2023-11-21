@@ -34,6 +34,11 @@
         <td mat-cell *matCellDef="let element">{{ element.strKey }}</td>
       </ng-container>
 
+      <ng-container matColumnDef="userType">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Role</th>
+        <td mat-cell *matCellDef="let element">{{ element.userType }}</td>
+      </ng-container>
+
       <ng-container matColumnDef="registerationDate">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Registered On</th>
         <td mat-cell *matCellDef="let element">

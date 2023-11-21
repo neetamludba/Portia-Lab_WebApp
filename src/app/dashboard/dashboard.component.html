@@ -2,7 +2,7 @@
   <div class="mat-elevation-z8">
     <mat-card style="margin-bottom: 16px">
       <mat-card-title>Category Wise Scores</mat-card-title>
-      <mat-card-content class="content_card" style="min-height: 200px" *ngIf="users && categoryWiseData">
+      <mat-card-content class="content_card" style="min-height: 200px" *ngIf="users && categoryWiseData && runCategoryWise">
         <div class="report_header">
           <div class="title_row">
             <div style="font-weight: bold; width: 150px">&nbsp;</div>
@@ -50,7 +50,7 @@
     </mat-card>
     <mat-card>
       <mat-card-title>Test Wise Score</mat-card-title>
-      <mat-card-content class="content_card" style="min-height: 200px" *ngIf="users && data">
+      <mat-card-content class="content_card" style="min-height: 200px" *ngIf="users && data && runTestWise">
         <div class="report_header">
           <div class="title_row">
             <div style="font-weight: bold; width: 300px">&nbsp;</div>
@@ -63,7 +63,7 @@
           <div class="title_row">
             <div style="font-weight: bold; width: 300px">&nbsp;</div>
             <div class="user_row">
-              <div *ngFor="let user of users" class="user_col">
+              <div *ngFor="let user of users" class="user_col_sub_heading">
                 {{ "Assigned | Attempts | Score" }}
               </div>
             </div>
@@ -83,19 +83,20 @@
                   <div *ngFor="let user of users" class="attempt_col">
                     <ng-container *ngIf="test && user">
 
-                      <button mat-mini-fab
+                      <button mat-mini-fab title="Test_Assignments_For_User"
                         [color]="getAssignmentsForUser(test, user.userID) !== getAttemptsForUser(test, user.userID) ? 'accent' : 'primary'"
                         (click)="gotoAssignmentsOfUser(test, user)"
                         [disabled]="getAssignmentsForUser(test, user.userID) == '-' || getAssignmentsForUser(test, user.userID) == 0">
                         {{ getAssignmentsForUser(test, user.userID) }}
                       </button>
-                      <button mat-mini-fab
+                      <button mat-mini-fab title="Test_Attempts_For_User"
                         [color]="getAssignmentsForUser(test, user.userID) !== getAttemptsForUser(test, user.userID) ? 'accent' : 'primary'"
                         (click)="gotoAttemptsStatisticsOfUser(test, user)"
                         [disabled]="getAttemptsForUser(test, user.userID) == '-' || getAttemptsForUser(test, user.userID) == 0">
                         {{ getAttemptsForUser(test, user.userID) }}
                       </button>
-                      <button mat-mini-fab [color]="getUserTestScore(user, test) !== '100' ? 'accent' : 'primary'"
+                      <button mat-mini-fab title="Latest_Test_Score_For_User"
+                        [color]="getUserTestScore(user, test) !== '100' ? 'accent' : 'primary'"
                         (click)="gotoAttemptDetailOfUser(test, user)" [disabled]="getUserTestScore(user, test) == '-' ">
                         {{ getUserTestScore(user, test) }}
                       </button>

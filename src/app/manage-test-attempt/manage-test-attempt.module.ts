@@ -20,6 +20,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 
 @NgModule({
   declarations: [MyAttemptListComponent, TestAttemptDetailsComponent, ViewTestAttemptComponent, TestAttemptStatsComponent],
@@ -39,6 +41,7 @@ import { MatRadioModule } from '@angular/material/radio';
     RouterModule,
     MatDialogModule,
     MatRadioModule,
+    MatProgressSpinnerModule
   ],
 })
-export class ManageTestAttemptModule {}
+export class ManageTestAttemptModule { }

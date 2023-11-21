@@ -1,7 +1,12 @@
+.main-content {
+  display: flex;
+}
 .content_card div {
   display: flex;
 }
-
+.button_header{
+  font-size: xx-small;
+}
 .report_header {
   flex: 1;
   flex-direction: column;
@@ -19,20 +24,32 @@
 .user_row {
   flex-direction: row;
   flex: 1;
-  margin-left: 8px;
+  justify-content: center;
+  padding: 5px;
+  /* margin-left: 8px; */
 }
 
 .user_col {
   flex: 1;
   border-left: 1px solid #cdcdcd;
-  justify-content: center;
-  padding: 5px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+}
+.user_col_sub_heading {
+  flex: 1;
+  font-size: xx-small;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .category_row {
   flex: 1;
   flex-direction: column;
+  flex-direction: row;
   border-bottom: 1px solid #cdcdcd;
+  justify-content: space-between;
+  align-items: center;
   padding: 8px;
 }
 
