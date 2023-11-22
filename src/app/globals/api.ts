@@ -30,40 +30,60 @@ const getConfiguration = (body: any, method: string) => {
 };
 
 export const GetService = async (route: string) => {
-  let url = environment.webService + route;
+  try {
+    let url = environment.webService + route;
+    const config = getConfiguration(null, 'GET');
+    const response = await fetch(url, config);
 
-  var config = getConfiguration(null, 'GET');
+    if (response.ok) {
+      return await response.json();
+    }
 
-  return fetch(url, config)
-    .then(async (response) => {
-      if (response.ok) return Promise.resolve(response.json());
+    if (response.status === 401) {
+      throw new Error('You are unauthorized.');
+    }
 
-      if (!response.ok && response.status == 401) {
-        throw 'You are unauthorized.';
-      }
+    const errorResponse = await response.json();
+    throw errorResponse;
+  } catch (error) {
+    console.log('Error: ', error);
+    throw error;
+  }
 
-      return Promise.resolve(response.json()).then((responseInJson) => {
-        // This will end up in ERROR part
-        return Promise.reject(responseInJson);
-      });
-    })
-    .then(function (result) {
-      // console.log('API response1 ==>' + JSON.stringify(result));
-      return result;
-    })
-    .catch(function (error) {
-      console.log('Error: ', error);
-      console.log('Error: ' + JSON.stringify(error));
+  // let url = environment.webService + route;
 
-      if (error.Message === undefined) {
-        // errorHandler(error);
-        return;
-      }
-      if (error.Message !== null) {
-        // errorHandler(error.Message);
-        return;
-      }
-    });
+  // var config = getConfiguration(null, 'GET');
+
+  // return fetch(url, config)
+  //   .then(async (response) => {
+  //     if (response.ok) return Promise.resolve(response.json());
+
+  //     if (!response.ok && response.status == 401) {
+  //       throw 'You are unauthorized.';
+  //     }
+
+  //     return Promise.resolve(response.json()).then((responseInJson) => {
+  //       // This will end up in ERROR part
+  //       return Promise.reject(responseInJson);
+  //     });
+  //   })
+  //   .then(function (result) {
+  //     // console.log('API response1 ==>' + JSON.stringify(result));
+  //     return result;
+  //   })
+  //   .catch(function (error) {
+  //     console.log('Error: ', error);
+  //     console.log('Error: ' + JSON.stringify(error));
+
+  //     if (error.Message === undefined) {
+  //       // errorHandler(error);
+  //       return;
+  //     }
+  //     if (error.Message !== null) {
+  //       // errorHandler(error.Message);
+  //       return;
+  //     }
+  //   });
 };
 
 export const SaveService = async (
@@ -75,30 +95,49 @@ export const SaveService = async (
 
   var config = getConfiguration(body, method);
 
-  return fetch(url, config)
-    .then(async (response) => {
-      // this needs to be fixed
-      if (response.ok) {
-        const resp = response.json();
-        console.log({ resp });
-        return Promise.resolve(resp);
-      }
+  // return fetch(url, config)
+  //   .then(async (response) => {
+  //     // this needs to be fixed
+  //     if (response.ok) {
+  //       const resp = response.json();
+  //       console.log({ resp });
+  //       return Promise.resolve(resp);
+  //     }
 
-      if (!response.ok && response.status == 401) {
-        throw 'You are unauthorized.';
-      }
+  //     if (!response.ok && response.status == 401) {
+  //       throw 'You are unauthorized.';
+  //     }
 
-      return Promise.resolve(response.json()).then((responseInJson) => {
-        // This will end up in ERROR part
-        return Promise.reject(responseInJson);
-      });
-    })
-    .then((result) => {
-      return result;
-    })
-    .catch((error) => {
-      console.log('Error: ' + JSON.stringify(error));
+  //     return Promise.resolve(response.json()).then((responseInJson) => {
+  //       // This will end up in ERROR part
+  //       return Promise.reject(responseInJson);
+  //     });
+  //   })
+  //   .then((result) => {
+  //     return result;
+  //   })
+  //   .catch((error) => {
+  //     console.log('Error: ' + JSON.stringify(error));
 
-      throw error;
-    });
+  //     throw error;
+  //   });
+
+  try {
+    const response = await fetch(url, config);
+
+    if (response.ok) {
+      const responseData = await response.json();
+      return responseData;
+    }
+
+    if (response.status === 401) {
+      throw new Error('You are unauthorized.');
+    }
+
+    const errorResponse = await response.json();
+    throw errorResponse;
+  } catch (error) {
+    console.log('Error: ', error);
+    throw error;
+  }
 };

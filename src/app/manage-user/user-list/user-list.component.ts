@@ -32,23 +32,26 @@ export class UserListComponent implements AfterViewInit {
   ngAfterViewInit() {
     let crntUser = this.accountService.userValue;
 
-    this.userService.getAllUsers().then((users) => {
-      if (crntUser.userType === 'Admin' && crntUser.companyID === -1) {
+
+    if (crntUser.userType === 'Admin' && crntUser.companyID === -1) {
+      this.userService.getAllUsers().then((users) => {
         this.dataSource = new MatTableDataSource<User>(users);
         this.dataSource.sort = this.sort;
-      }
-      else if (crntUser.userType === 'Admin') {
-        let filteredUsers = users.filter((u: any) => u.userType !== 'Admin')
-        this.dataSource = new MatTableDataSource<User>(filteredUsers);
+      });
+    }
+    else if (crntUser.userType === 'Admin') {
+      this.userService.getAllUsersForAdmin(crntUser.companyID).then((users) => {
+        this.dataSource = new MatTableDataSource<User>(users);
         this.dataSource.sort = this.sort;
-      }
-      else if (crntUser.userType === 'Teacher') {
-        let filteredUsers = users.filter((u: any) => u.userType !== 'Admin' && u.userType !== 'Teacher')
-        this.dataSource = new MatTableDataSource<User>(filteredUsers);
+      });
+    }
+    else if (crntUser.userType === 'Teacher') {
+      this.userService.getAllUsersForTeacher(crntUser.companyID).then((users) => {
+        this.dataSource = new MatTableDataSource<User>(users);
         this.dataSource.sort = this.sort;
-      }
+      });
+    }
 
-    });
 
   }
 

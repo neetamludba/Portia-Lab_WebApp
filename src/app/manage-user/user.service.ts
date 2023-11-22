@@ -16,6 +16,22 @@ export class UserService {
       .catch((ex) => console.log(ex));
   }
 
+  async getAllUsersForAdmin(companyID: number) {
+    return GetService('user/forAdmin/' + companyID)
+      .then((users) => {
+        return users
+      })
+      .catch((ex) => console.log(ex));
+  }
+
+  async getAllUsersForTeacher(companyID: number) {
+    return GetService('user/forTeacher/' + companyID)
+      .then((users) => {
+        return users
+      })
+      .catch((ex) => console.log(ex));
+  }
+
   async getAllActiveUsers() {
     return GetService('user/active')
       .then((users) => users)
