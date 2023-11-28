@@ -57,6 +57,23 @@ export class AccountService {
     });
   }
 
+  async resetPasswordByUser(oldPassword: string, newPassword: string) {
+    return SaveService('auth/resetpasswordbyuser', {
+      userID: this.userValue.userID,
+      oldPassword: oldPassword,
+      newPassword: newPassword,
+    }).then((user) => {
+      // store user details and jwt token in local storage to keep user logged in between page refreshes
+      console.log({ user })
+      if (user && user.areEqual != false) {
+        localStorage.setItem('user', JSON.stringify(user));
+        this.userSubject.next(user);
+        return user;
+      }
+      return user.areEqual
+    });
+  }
+
   async logout() {
     // remove user from local storage and set current user to null
     localStorage.removeItem('user');

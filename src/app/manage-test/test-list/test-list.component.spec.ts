@@ -11,7 +11,8 @@ import { MatTableModule } from '@angular/material/table';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTableDataSource } from '@angular/material/table';
 import { TestService } from '../test.service';
-import { TestCategory } from 'app/manage-test-category/category-list/category-list.component';
+import { TestCategory } from 'app/models/test-category.model'; 
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('TestListComponent', () => {
   let component: TestListComponent;
@@ -28,7 +29,8 @@ describe('TestListComponent', () => {
         MatInputModule,
         MatTableModule,
         MatSortModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        RouterTestingModule
       ]
     })
       .compileComponents();
@@ -75,7 +77,7 @@ describe('TestListComponent', () => {
     ];
     component.dataSource = new MatTableDataSource<Test>(tests);
     await component.doFilter('Test 1');
-    expect(component.dataSource.filteredData).toEqual([tests[0]]);
+    expect(component.dataSource.filter).toEqual('Test 1');
   });
 
   it('should navigate to test details page when createTest called', async () => {

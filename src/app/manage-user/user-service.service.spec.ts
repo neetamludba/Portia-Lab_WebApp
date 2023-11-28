@@ -22,6 +22,40 @@ describe('UserServiceService', () => {
     httpTestingController.verify();
   });
 
+  it('should be created', () => {
+    expect(userService).toBeTruthy();
+  });
+
+  it('should have getUser function', () => {
+    expect(userService.getUser).toBeTruthy();
+  }
+  );
+
+  it('should have getAllUsers function', () => {
+    expect(userService.getAllUsers).toBeTruthy();
+  }
+  );
+
+  it('should have saveUser function', () => {
+    expect(userService.saveUser).toBeTruthy();
+  }
+  );
+
+  it('should have getAllActiveUsers function', () => {
+    expect(userService.getAllActiveUsers).toBeTruthy();
+  }
+  );
+
+  it('should have getAllUsersForAdmin function', () => {
+    expect(userService.getAllUsersForAdmin).toBeTruthy();
+  }
+  );
+
+  it('should have getAllUsersForTeacher function', () => {
+    expect(userService.getAllUsersForTeacher).toBeTruthy();
+  }
+  );
+
   const mockUser1 = {
     userID: 1,
     firstName: 'James',
@@ -54,10 +88,6 @@ describe('UserServiceService', () => {
     companyID: 1,
     userType: 'Student',
   };
-
-  it('should be created', () => {
-    expect(userService).toBeTruthy();
-  });
 
   it('should fetch all users', async () => {
     const mockUsers = [mockUser1, mockUser2, mockUser3];

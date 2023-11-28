@@ -13,9 +13,13 @@ export class ResetPasswordComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private accountService: AccountService
-  ) {}
+  ) { }
 
   resetPasswordForm = new FormGroup({
+    oldPassword: new FormControl(null, [
+      Validators.required,
+      Validators.minLength(5),
+    ]),
     newPassword: new FormControl(null, [
       Validators.required,
       Validators.minLength(5),
@@ -26,14 +30,30 @@ export class ResetPasswordComponent implements OnInit {
     ]),
   });
 
+  path: any = '';
   loading = false;
   submitted = false;
-  resetToken = '';
+  // resetToken = '';
 
   ngOnInit() {
-    this.route.queryParams.subscribe((params) => {
-      this.resetToken = params['token'];
-    });
+    if (this.route.snapshot.url.length >= 2) {
+      this.path = this.route.snapshot.url[1].path;
+      console.log(this.path);
+    }
+    // this.route.queryParams.subscribe((params) => {
+    //   this.resetToken = params['token'];
+    // });
+  }
+  matchNewAndConfirmPassword() {
+    if (
+      this.resetPasswordForm.get('newPassword')?.value !==
+      this.resetPasswordForm.get('confirmPassword')?.value
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+
   }
 
   onSubmit() {
@@ -41,12 +61,23 @@ export class ResetPasswordComponent implements OnInit {
     this.loading = true;
 
     this.accountService
-      .resetPassword(
+      .resetPasswordByUser(
+        this.resetPasswordForm.get('oldPassword')?.value!,
         this.resetPasswordForm.get('newPassword')?.value,
-        this.resetToken
+        // this.resetToken
       )
-      .then(() => {
-        this.router.navigateByUrl('/');
+      .then((data) => {
+        if (data) {
+          this.loading = false;
+          this.submitted = false;
+          this.router.navigateByUrl('/');
+        } else {
+          this.loading = false;
+          this.submitted = false;
+          this.router.navigateByUrl('failed-reset-password');
+        }
+        // this.router.navigateByUrl('/');
+
       })
       .catch((err) => {
         this.submitted = false;

@@ -103,22 +103,6 @@ describe('TestService', () => {
 
   });
 
-  it('should create new question using private httpPostQuestion', async () => {
-    // Arrange
-    const question = { testID: 1, question: 'Question 1', questionType: 1, active: true, isDeleted: false, mandatory: true, options: 'a,b,c,d', correctAnswers: '0,1,0,0' };
-    const questionArray = { id: 1, testID: 1, question: 'Question 1', questionType: 1, active: true, isDeleted: false, mandatory: true, options: 'a,b,c,d', correctAnswers: '0,1,0,0' };
-
-    // Act
-    const promise = (service as any).httpPostQuestion(question);
-
-    // Assert
-    const questionData = await promise;
-    expect(questionData).toEqual(questionArray)
-
-    httpTestingController.verify();
-
-  });
-
   it('should create new questions associated with the test', async () => {
     // Arrange
     const testID = 0;

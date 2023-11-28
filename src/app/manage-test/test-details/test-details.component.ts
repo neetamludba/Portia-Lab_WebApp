@@ -169,8 +169,6 @@ export class TestDetailsComponent {
   }
 
   closeForm() {
-    this.router.navigateByUrl('test').catch((error) => {
-      console.log(error);
-    });
+    this.router.navigateByUrl('test');
   }
 }

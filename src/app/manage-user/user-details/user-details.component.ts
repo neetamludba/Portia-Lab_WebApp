@@ -18,17 +18,17 @@ export class UserDetailsComponent implements OnInit {
   ) { }
 
   userDetailsForm = new FormGroup({
-    email: new FormControl(null, [Validators.required, Validators.email]),
-    firstName: new FormControl(null, [
+    email: new FormControl('', [Validators.required, Validators.email]),
+    firstName: new FormControl('', [
       Validators.required,
       Validators.minLength(5),
     ]),
-    lastName: new FormControl(null, [
+    lastName: new FormControl('', [
       Validators.required,
       Validators.minLength(5),
     ]),
 
-    password: new FormControl(null, [
+    password: new FormControl('', [
       Validators.required,
       Validators.minLength(5),
     ]),
@@ -44,14 +44,16 @@ export class UserDetailsComponent implements OnInit {
   ngOnInit(): void {
     let id = Number(this.route.snapshot.paramMap.get('id'));
     let crntUser = this.accountService.userValue;
-    if (crntUser.userType === 'Admin' && crntUser.companyID === -1) {
-      this.roles = ['Admin', 'Teacher', 'Student', 'Guardian'];
-    }
-    else if (crntUser.userType === 'Admin') {
-      this.roles = ['Teacher', 'Student', 'Guardian'];
-    }
-    else if (crntUser.userType === 'Teacher') {
-      this.roles = ['Student', 'Guardian'];
+    if (crntUser && crntUser.userType) {
+      if (crntUser.userType === 'Admin' && crntUser.companyID === -1) {
+        this.roles = ['Admin', 'Teacher', 'Student', 'Guardian'];
+      }
+      else if (crntUser.userType === 'Admin') {
+        this.roles = ['Teacher', 'Student', 'Guardian'];
+      }
+      else if (crntUser.userType === 'Teacher') {
+        this.roles = ['Student', 'Guardian'];
+      }
     }
 
     if (!isNaN(id) && id > 0) {
@@ -81,16 +83,27 @@ export class UserDetailsComponent implements OnInit {
 
   getUser(userId: number) {
     this.userService.getUser(userId).then((user) => {
-      this.userDetailsForm.setValue({
-        email: user.email,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        password: user.strKey,
-        userType: user.userType,
-        active: user.active,
-      });
+      if (user) {
+        this.userDetailsForm.setValue({
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          password: user.strKey,
+          userType: user.userType,
+          active: user.active,
+        });
 
-      this.userDetailsForm.controls['email'].disable();
+        this.userDetailsForm.controls['email'].disable();
+      }
+      else {
+        console.log('User Not Found')
+        this.router.navigateByUrl('user').catch((error) => {
+          console.log(error);
+        });
+      }
+    }).catch((error) => {
+      console.error('Error fetching user:', error);
+      // Handle error scenario
     });
   }
 

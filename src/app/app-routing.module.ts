@@ -35,6 +35,20 @@ const routes: Routes = [
     component: LoginComponent,
   },
   {
+    path: 'reset-password',
+    component: ResetPasswordComponent,
+    // pathMatch: 'full',
+    canActivate: [AuthGuard],
+    data: { title: 'Reset Password' }
+  },
+  {
+    path: 'failed-reset-password',
+    component: ResetPasswordComponent,
+    // pathMatch: 'full',
+    canActivate: [AuthGuard],
+    data: { title: 'Reset Password Failed' }
+  },
+  {
     path: 'account/forgetpassword',
     component: ForgetPasswordComponent,
   },
@@ -188,4 +202,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

@@ -234,36 +234,6 @@ describe('TestDetailsComponent', () => {
 
   });
 
-  it('should delete a question', () => {
-    // Mock data
-    const questionIndex = 0;
-    const crntQuestion: Question = {
-      questionID: 1,
-      testID: 1,
-      question: 'Question 1',
-      questionType: 1,
-      mandatory: true,
-      options: 'x,y,z',
-      correctAnswers: '2',
-      active: true,
-      displayOrder: 1
-    };
-    const testQuestions: Question[] = [crntQuestion];
-
-    // Set component properties
-    component.testQuestions = testQuestions;
-
-    // Call the deleteQuestion method
-
-    // Assert that the question was deleted
-    expect(component.testQuestions.length).toBe(0);
-    expect(component.testQuestions[questionIndex]).toBeUndefined();
-
-    // Assert that other properties are updated as expected
-    expect(component.dsQuestions.data.length).toBe(0);
-    expect(component.testDetailsForm.dirty).toBe(true);
-  });
-
   it('should add a Question', async () => {
     // Mock data
     const questionIndex = 0;

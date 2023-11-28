@@ -8,6 +8,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { MainNavigationComponent } from './main-navigation.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('MainNavigationComponent', () => {
   let component: MainNavigationComponent;
@@ -24,6 +25,7 @@ describe('MainNavigationComponent', () => {
         MatListModule,
         MatSidenavModule,
         MatToolbarModule,
+        HttpClientTestingModule
       ]
     }).compileComponents();
   }));

@@ -10,11 +10,9 @@ import { AppComponent } from './app.component';
 import { MainNavigationComponent } from './main-navigation/main-navigation.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { ManageTestCategoryModule } from './manage-test-category/manage-test-category.module';
 import { ManageTestModule } from './manage-test/manage-test.module';
@@ -26,6 +24,7 @@ import { JwtInterceptor } from './helpers/jwt.interceptor';
 import { Injector } from '@angular/core';
 import { ManageUserModule } from './manage-user/manage-user.module';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { MatMenuModule } from '@angular/material/menu';
 
 export let InjectorInstance: Injector;
 
@@ -34,6 +33,7 @@ export let InjectorInstance: Injector;
   imports: [
     BrowserModule,
     AppRoutingModule,
+
     BrowserAnimationsModule,
     ReactiveFormsModule,
     HttpClientModule,
@@ -43,6 +43,8 @@ export let InjectorInstance: Injector;
     MatSidenavModule,
     MatIconModule,
     MatListModule,
+    MatMenuModule,
+
     ManageTestCategoryModule,
     ManageTestModule,
     ManageQuestionModule,
