@@ -33,18 +33,17 @@ export class TestListComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.testService.getAllTests().then((tests) => {
-      // console.log("Tests" + { tests });
       this.dataSource = new MatTableDataSource<Test>(tests);
       this.dataSource.sort = this.sort;
     });
-    this.getTestCategoris();
+    this.getTestCategories();
   }
 
   public doFilter(value: string) {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
   }
 
-  getTestCategoris() {
+  getTestCategories() {
     this.testCategoryService
       .getAllCategories()
       .then((categories) => {
@@ -55,8 +54,6 @@ export class TestListComponent implements AfterViewInit {
   }
 
   createTest() {
-    this.router.navigateByUrl('test/create').catch((error) => {
-      console.log(error);
-    });
+    this.router.navigateByUrl('/test/create');
   }
 }

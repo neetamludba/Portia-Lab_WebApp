@@ -10,13 +10,14 @@ import { AccountService } from 'app/account/account.service';
   styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent implements OnInit {
-  private currentPageTitle: string = '';
 
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private accountService: AccountService
   ) { }
+
+  currentPageTitle: string = '';
 
   ngOnInit() {
     this.router.events
@@ -64,7 +65,7 @@ export class NavbarComponent implements OnInit {
   resetPassword() {
     this.router.navigateByUrl('/reset-password');
   }
-  
+
   logout() {
     this.accountService.logout();
   }

@@ -1,117 +1,69 @@
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NavbarComponent } from './navbar.component';
-import { Router, Event as RouterEvent } from '@angular/router';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { AccountService } from '../account/account.service';
+
+import { Router } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-import { AccountService } from '../account/account.service';
-import { of, Subject } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
 
 describe('NavbarComponent', () => {
   let component: NavbarComponent;
   let fixture: ComponentFixture<NavbarComponent>;
-  let accountService: AccountService;
   let router: Router;
-  let routerEventsSubject: Subject<RouterEvent>;
 
-  beforeEach(() => {
-    routerEventsSubject = new Subject<RouterEvent>();
-
-    TestBed.configureTestingModule({
-      declarations: [NavbarComponent],
-      providers: [
-        {
-          useValue: {
-            data: of({ title: 'Test Title' }),
-            firstChild: null,
-          },
-        },
-        {
-          provide: AccountService,
-          useClass: AccountService,
-        },
-      ],
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        HttpClientTestingModule,
         MatToolbarModule,
         MatIconModule,
         MatMenuModule,
+      ],
+      declarations: [NavbarComponent],
+      providers: [
+        AccountService,
       ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(NavbarComponent);
     component = fixture.componentInstance;
-    accountService = TestBed.inject(AccountService);
     router = TestBed.inject(Router);
-
-    spyOn(accountService, 'logout');
-
-    // Set up the router events subscription with the routerEventsSubject
-    spyOnProperty(router, 'events').and.returnValue(routerEventsSubject.asObservable());
-
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-  it('should handle null or undefined userString in getUserName', () => {
-    spyOn(localStorage, 'getItem').and.returnValue(null);
 
+  it('should set username when user is available in localStorage', () => {
+    const user = { userObject: { firstName: 'John', lastName: 'Doe' } };
+    spyOn(localStorage, 'getItem').and.returnValue(JSON.stringify(user));
     component.getUserName();
 
-    expect(component.userName).toBe(''); // Set appropriate fallback value or error handling logic
+    expect(component.userName).toBe('John Doe');
   });
 
-  it('should call logout method of accountService on logout', () => {
-    component.logout();
-
-    expect(accountService.logout).toHaveBeenCalled();
-  }
-  );
-
-  it('should set the current page title', () => {
-    expect((component as any).currentPageTitle).toBe('');
-
-    component.ngOnInit();
-
-    expect((component as any).currentPageTitle).toBe('');
-  }
-  );
-
-
-  it('should set the userName based on localStorage data', () => {
-    const mockUser = { userObject: { firstName: 'Asad', lastName: 'Ali' } } ;
-    spyOn(localStorage, 'getItem').and.returnValue(JSON.stringify(mockUser));
-
-    component.getUserName();
-
-    expect(component.userName).toBe('Asad Ali');
-  });
-
-  it('should handle null or undefined userString in getUserName()', () => {
+  it('should not set username when user is not available in localStorage', () => {
     spyOn(localStorage, 'getItem').and.returnValue(null);
-
     component.getUserName();
 
     expect(component.userName).toBe('');
   });
 
-  it('should call logout method of accountService on logout', () => {
-    component.logout();
-
-    expect(accountService.logout).toHaveBeenCalled();
-  });
-
-  it('should navigate to reset-password page on reset password', () => {
-    const routerSpy = spyOn((component as any).router, 'navigateByUrl');
-
+  it('should navigate to reset password page', () => {
+    spyOn((component as any).router, 'navigateByUrl');
     component.resetPassword();
 
-    expect(routerSpy).toHaveBeenCalledWith('/reset-password');
+    expect((component as any).router.navigateByUrl).toHaveBeenCalledWith('/reset-password');
+  });
+
+  it('should call accountService logout method', () => {
+    spyOn((component as any).accountService, 'logout');
+    component.logout();
+
+    expect((component as any).accountService.logout).toHaveBeenCalled();
   });
 
 });

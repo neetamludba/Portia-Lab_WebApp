@@ -2,7 +2,6 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UserService } from 'app/manage-user/user.service';
-import { TestAssignment } from 'app/models/test-assignment.model';
 import { User } from 'app/models/user.model';
 
 @Component({

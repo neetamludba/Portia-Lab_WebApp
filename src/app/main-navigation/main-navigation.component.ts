@@ -3,7 +3,6 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { AccountService } from 'app/account/account.service';
-import { User } from 'app/models/user.model';
 import { SessionUser } from 'app/models/session.user.model';
 
 @Component({
@@ -28,15 +27,24 @@ export class MainNavigationComponent {
     this.user = this.accountService.userValue;
   }
 
-  isSuperAdmin = () => {
-    return this.user && this.user.companyID === -1;
+  isSuperAdmin(): boolean {
+    if (!this.user) {
+      return false;
+    }
+    return this.user.companyID === -1 && this.user.userType === 'Admin';
   };
 
-  isAdmin = () => {
-    return this.user && this.user.userType === 'Admin';
+  isAdmin(): boolean {
+    if (!this.user) {
+      return false;
+    }
+    return this.user.userType === 'Admin';
   };
 
-  isTeacher = () => {
-    return this.user && this.user.userType === 'Teacher';
+  isTeacher(): boolean {
+    if (!this.user) {
+      return false;
+    }
+    return this.user.userType === 'Teacher';
   };
 }

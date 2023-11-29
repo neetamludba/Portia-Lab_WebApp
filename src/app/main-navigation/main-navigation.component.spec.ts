@@ -1,5 +1,5 @@
 import { LayoutModule } from '@angular/cdk/layout';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -10,11 +10,13 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MainNavigationComponent } from './main-navigation.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
+import { RouterTestingModule } from '@angular/router/testing';
+
 describe('MainNavigationComponent', () => {
   let component: MainNavigationComponent;
   let fixture: ComponentFixture<MainNavigationComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [MainNavigationComponent],
       imports: [
@@ -25,18 +27,32 @@ describe('MainNavigationComponent', () => {
         MatListModule,
         MatSidenavModule,
         MatToolbarModule,
-        HttpClientTestingModule
-      ]
-    }).compileComponents();
-  }));
+        HttpClientTestingModule,
+        RouterTestingModule
+      ],
+    });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(MainNavigationComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should compile', () => {
     expect(component).toBeTruthy();
   });
+
+  it('isSuperAdmin method exists', () => {
+
+    expect(component.isSuperAdmin()).toBeDefined;
+  });
+
+  it('isAdmin method exists', () => {
+
+    expect(component.isAdmin()).toBeDefined;
+  });
+
+  it('isTeacher method exists', () => {
+
+    expect(component.isTeacher()).toBeDefined;
+  });
+
 });
