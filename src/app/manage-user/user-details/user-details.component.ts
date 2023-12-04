@@ -77,12 +77,13 @@ export class UserDetailsComponent implements OnInit {
     } else return '';
   }
 
-  changeRole(r: any) {
-    this.userDetailsForm.setValue({ userType: r.target.value });
+  changeRole(event: Event) {
+    const selectedRole = (event.target as HTMLSelectElement).value;
+    this.userDetailsForm.patchValue({ userType: selectedRole });
   }
 
-  getUser(userId: number) {
-    this.userService.getUser(userId).then((user) => {
+  async getUser(userId: number) {
+    await this.userService.getUser(userId).then((user) => {
       if (user) {
         this.userDetailsForm.setValue({
           email: user.email,
@@ -108,18 +109,24 @@ export class UserDetailsComponent implements OnInit {
   }
 
   saveUser() {
-    // console.log(this.userDetailsForm.errors);
-
+    const formData = this.userDetailsForm.value;
     this.userService
       .saveUser(
         {
-          email: this.userDetailsForm.get('email')?.value,
-          firstName: this.userDetailsForm.get('firstName')?.value,
-          lastName: this.userDetailsForm.get('lastName')?.value,
-          password: this.userDetailsForm.get('password')?.value,
-          strKey: this.userDetailsForm.get('password')?.value,
-          userType: this.userDetailsForm.get('userType')?.value,
-          active: Boolean(this.userDetailsForm.get('active')?.value),
+          email: formData.email,
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          password: formData.password,
+          strKey: formData.password,
+          userType: formData.userType,
+          active: formData.active
+          // email: this.userDetailsForm.get('email')?.value,
+          // firstName: this.userDetailsForm.get('firstName')?.value,
+          // lastName: this.userDetailsForm.get('lastName')?.value,
+          // password: this.userDetailsForm.get('password')?.value,
+          // strKey: this.userDetailsForm.get('password')?.value,
+          // userType: this.userDetailsForm.get('userType')?.value,
+          // active: Boolean(this.userDetailsForm.get('active')?.value),
         },
         this.userId
       )
@@ -133,8 +140,6 @@ export class UserDetailsComponent implements OnInit {
   }
 
   closeForm() {
-    this.router.navigateByUrl('user').catch((error) => {
-      console.log(error);
-    });
+    this.router.navigateByUrl('user');
   }
 }

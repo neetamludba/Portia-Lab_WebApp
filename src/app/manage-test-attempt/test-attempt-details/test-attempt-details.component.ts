@@ -74,7 +74,7 @@ export class TestAttemptDetailsComponent implements OnInit {
   getTest(testId: number) {
     this.testService.getTest(testId).then((test) => {
       this.questions = test.questions
-        .sort((a: Question, b: Question) => a.displayOrder - b.displayOrder)
+        .sort((a: Question, b: Question) => a.displayOrder - b.displayOrder)// to be change to random. for now...
         .slice();
       this.testName = test.description;
 

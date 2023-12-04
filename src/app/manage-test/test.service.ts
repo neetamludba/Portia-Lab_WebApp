@@ -26,9 +26,10 @@ export class TestService {
       })
         .then((count) => count)
         .catch((ex) => console.log(ex));
-    } else
+    } else {
       return SaveService('test/' + testId, testData, AppConst.patchMethod)
         .then((count) => count)
         .catch((ex) => console.log(ex));
+    }
   }
 }

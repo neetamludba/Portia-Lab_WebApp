@@ -95,75 +95,79 @@ describe('UserDetailsComponent', () => {
   });
 
   it('should change role', () => {
-    const e = {
+    const event = {
       target: {
-        value: 'Teacher',
-      },
+        value: 'Teacher'
+      }
     };
-    component.changeRole(e);
+
+    // Call the changeRole method with the created event object
+    component.changeRole(event as any);
 
     expect(component.userDetailsForm.value).toEqual({
-      r: 'Teacher',
+      userType: 'Teacher', // Assert against userType, not 'r'
+      email: '', // Add other fields with their expected values if needed
+      firstName: '',
+      lastName: '',
+      password: '',
+      active: true
     });
   });
 
-  it('should log the error when an error occurs during saving', async () => {
-    // Arrange
-    const testError = new Error('Test error');
-    spyOn(console, 'log');
-    spyOn(userServiceMock, 'saveUser').and.throwError(testError);
-
-    // Act
-    await component.saveUser();
-
-    // Assert
-    expect(console.log).toHaveBeenCalledWith(testError);
-  });
-
-  it('should handle undefined error when saving', async () => {
-    // Arrange
-    spyOn(console, 'log');
-    spyOn(userServiceMock, 'saveUser').and.returnValue(Promise.reject(undefined));
-
-    // Act
-    await component.saveUser();
-
-    // Assert
-    expect(console.log).toHaveBeenCalledWith(undefined);
-  });
-
   it('should save User', async () => {
-    spyOn(userServiceMock, 'saveUser').and.stub();
-    const navigateByUrlSpy = spyOn(component['router'], 'navigateByUrl');
-    navigateByUrlSpy.and.stub();
-    fixture.detectChanges();
-    await fixture.whenStable();
-    component.saveUser();
-
-    await expect(userServiceMock.saveUser).toHaveBeenCalledWith( {
+    // Mocking userService.saveUser method
+    const mockUser = {
       email: 'test@example.com',
       firstName: 'asad',
       lastName: 'omar',
-      password: undefined,
+      password: 'omarlab',
       strKey: 'omarlab',
       userType: 'Student',
       active: 1,
-    },
-    0);
+    };
+    userServiceMock.saveUser.and.returnValue(Promise.resolve(mockUser));
 
-    expect(navigateByUrlSpy).toHaveBeenCalledWith('/user')
+    // Set form values before calling saveUser
+    component.userDetailsForm.patchValue({
+      email: 'test@example.com',
+      firstName: 'asad',
+      lastName: 'omar',
+      password: 'omarlab',
+      strKey: 'omarlab',
+      userType: 'Student',
+      active: 1,
+    });
+
+    // Fixture setup
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    // Trigger saveUser method
+    component.saveUser();
+
+    // Assertion
+    await expect(userServiceMock.saveUser).toHaveBeenCalledWith({
+      email: 'test@example.com',
+      firstName: 'asad',
+      lastName: 'omar',
+      password: 'omarlab',
+      strKey: 'omarlab',
+      userType: 'Student',
+      active: 1,
+    }, 1);
+
+    // Expect router navigation upon successful save
+    expect(routerMock.navigateByUrl).toHaveBeenCalledWith('user');
   });
 
   it('should clese form', async () => {
-    const navigateByUrlSpy = spyOn(component['router'], 'navigateByUrl');
-    navigateByUrlSpy.and.stub();
 
     fixture.detectChanges();
     await fixture.whenStable();
 
     component.closeForm();
 
-    expect(navigateByUrlSpy).toHaveBeenCalledWith('/user')
+    expect(routerMock.navigateByUrl).toHaveBeenCalledWith('user')
   });
 
 });

@@ -97,8 +97,9 @@ export class TestDetailsComponent {
       });
       this.dsQuestions = new MatTableDataSource<Question>(test.questions);
       this.dsQuestions.sort = this.sort;
-
-      this.testQuestions = test.questions.slice();
+      if (test.questions) {
+        this.testQuestions = test.questions.slice();
+      }
     });
   }
 
@@ -156,17 +157,21 @@ export class TestDetailsComponent {
 
 
   saveTest() {
+    let slicedQuestions: Question[] = []
+    if (this.testQuestions) {
+      slicedQuestions = this.testQuestions.slice();
+    }
     this.testService
       .saveTest(
         {
           description: this.testDetailsForm.get('description')?.value,
           categoryID: this.testDetailsForm.get('categoryID')?.value,
           active: Boolean(this.testDetailsForm.get('active')?.value),
-          questions: this.testQuestions.slice(),
+          questions: slicedQuestions,
         },
         this.testId
       )
-      .then(() =>
+      .then((testData) =>
         this.router.navigateByUrl('/test').catch((error) => {
           console.log(error);
         })

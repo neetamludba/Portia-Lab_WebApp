@@ -7,7 +7,6 @@ import { RouterModule } from '@angular/router';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { MainNavigationComponent } from './main-navigation/main-navigation.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -25,11 +24,12 @@ import { Injector } from '@angular/core';
 import { ManageUserModule } from './manage-user/manage-user.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
 
 export let InjectorInstance: Injector;
 
 @NgModule({
-  declarations: [AppComponent, MainNavigationComponent, NavbarComponent],
+  declarations: [AppComponent, NavbarComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -53,6 +53,7 @@ export let InjectorInstance: Injector;
     AccountModule,
     ManageUserModule,
     DashboardModule,
+    MatButtonModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

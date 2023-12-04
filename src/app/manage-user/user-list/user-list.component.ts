@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { User } from 'app/models/user.model';
 import { UserService } from '../user.service';
 import { AccountService } from 'app/account/account.service';
+import { SessionUser } from 'app/models/session.user.model';
 
 @Component({
   selector: 'app-user-list',
@@ -29,23 +30,23 @@ export class UserListComponent implements AfterViewInit {
   @ViewChild(MatSort)
   sort: MatSort = new MatSort();
 
-  ngAfterViewInit() {
-    let crntUser = this.accountService.userValue;
+  async ngAfterViewInit() {
+    let crntUser = await this.currentUser();
 
 
-    if (crntUser.userType === 'Admin' && crntUser.companyID === -1) {
+    if (crntUser && crntUser.userType === 'Admin' && crntUser.companyID === -1) {
       this.userService.getAllUsers().then((users) => {
         this.dataSource = new MatTableDataSource<User>(users);
         this.dataSource.sort = this.sort;
       });
     }
-    else if (crntUser.userType === 'Admin') {
+    else if (crntUser && crntUser.userType === 'Admin') {
       this.userService.getAllUsersForAdmin(crntUser.companyID).then((users) => {
         this.dataSource = new MatTableDataSource<User>(users);
         this.dataSource.sort = this.sort;
       });
     }
-    else if (crntUser.userType === 'Teacher') {
+    else if (crntUser && crntUser.userType === 'Teacher') {
       this.userService.getAllUsersForTeacher(crntUser.companyID).then((users) => {
         this.dataSource = new MatTableDataSource<User>(users);
         this.dataSource.sort = this.sort;
@@ -54,14 +55,15 @@ export class UserListComponent implements AfterViewInit {
 
 
   }
+  async currentUser(): Promise<SessionUser> {
+    return this.accountService.userValue
+  }
 
   public doFilter(value: string) {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
   }
 
   createUser() {
-    this.router.navigateByUrl('user/create').catch((error) => {
-      console.log(error);
-    });
+    this.router.navigateByUrl('user/create');
   }
 }
