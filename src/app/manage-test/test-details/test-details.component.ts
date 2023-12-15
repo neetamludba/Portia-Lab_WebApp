@@ -52,7 +52,7 @@ export class TestDetailsComponent {
   sort: MatSort = new MatSort();
 
   ngOnInit(): void {
-    this.getTestCategoris();
+    this.getTestCategories();
 
     let id = Number(this.route.snapshot.paramMap.get('id'));
 
@@ -79,7 +79,7 @@ export class TestDetailsComponent {
     this.dsQuestions.filter = value.trim().toLocaleLowerCase();
   }
 
-  getTestCategoris() {
+  getTestCategories() {
     this.testCategoryService
       .getAllCategories()
       .then((categories) => {
@@ -97,13 +97,20 @@ export class TestDetailsComponent {
       });
       this.dsQuestions = new MatTableDataSource<Question>(test.questions);
       this.dsQuestions.sort = this.sort;
-
-      this.testQuestions = test.questions.slice();
+      if (test.questions) {
+        this.testQuestions = test.questions.slice();
+      }
     });
   }
 
   changeCategory(e: any) {
-    this.testDetailsForm.setValue({ categoryID: e.target.value });
+    this.testDetailsForm.setValue(
+      {
+        categoryID: e.target.value,
+        description: null,
+        active: null
+      }
+    );
   }
 
   editQuestion(questionIndex: number) {
@@ -121,7 +128,7 @@ export class TestDetailsComponent {
 
     const dialogRef = this.dialog.open(QuestionDetailsComponent, {
       data: question,
-      width: '600px',
+      width: '750px',
     });
 
     dialogRef.afterClosed().subscribe((result: any) => {
@@ -150,18 +157,22 @@ export class TestDetailsComponent {
 
 
   saveTest() {
+    let slicedQuestions: Question[] = []
+    if (this.testQuestions) {
+      slicedQuestions = this.testQuestions.slice();
+    }
     this.testService
       .saveTest(
         {
           description: this.testDetailsForm.get('description')?.value,
           categoryID: this.testDetailsForm.get('categoryID')?.value,
           active: Boolean(this.testDetailsForm.get('active')?.value),
-          questions: this.testQuestions.slice(),
+          questions: slicedQuestions,
         },
         this.testId
       )
-      .then(() =>
-        this.router.navigateByUrl('test').catch((error) => {
+      .then((testData) =>
+        this.router.navigateByUrl('/test').catch((error) => {
           console.log(error);
         })
       )
@@ -169,8 +180,6 @@ export class TestDetailsComponent {
   }
 
   closeForm() {
-    this.router.navigateByUrl('test').catch((error) => {
-      console.log(error);
-    });
+    this.router.navigateByUrl('/test');
   }
 }

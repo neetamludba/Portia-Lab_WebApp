@@ -54,7 +54,7 @@ describe('QuestionDetailsComponent', () => {
 
         // Provide the necessary provider for MatMdcDialogData using the MAT_DIALOG_DATA injection token
         { provide: MAT_DIALOG_DATA, useValue: {} },
-        
+
         {
           provide: ActivatedRoute,
           useValue: {
@@ -221,6 +221,7 @@ describe('QuestionDetailsComponent', () => {
       questionType: '1',
       mandatory: true,
       active: false,
+      displayOrder: 1,
     });
 
     // Add options to the optionsArray
@@ -234,11 +235,11 @@ describe('QuestionDetailsComponent', () => {
     expect(mockDialogRef.close).toHaveBeenCalledWith({
       question: 'Sample question',
       questionType: 1, // Ensure it's a number
-      isDeleted: false,
       mandatory: true,
       options: 'Option 1,Option 2',
       correctAnswers: 'true,false',
       active: false,
+      displayOrder: 1,
     });
   });
 
@@ -268,6 +269,7 @@ describe('QuestionDetailsComponent', () => {
       questionType: '2',
       mandatory: false,
       active: true,
+      displayOrder: 1,
       optionsArray: [
         { value: 'Option 1', correctAnswer: true },
         { value: 'Option 2', correctAnswer: false },
@@ -283,6 +285,7 @@ describe('QuestionDetailsComponent', () => {
       questionType: '1',
       mandatory: true,
       active: false,
+      displayOrder: 1,
     });
 
     // Add options to the optionsArray
@@ -296,7 +299,7 @@ describe('QuestionDetailsComponent', () => {
     expect(mockDialogRef.close).toHaveBeenCalledWith({
       question: 'Sample question',
       questionType: 1, // Ensure it's a number
-      isDeleted: false,
+      displayOrder: 1,
       mandatory: true,
       options: 'Option 1,Option 2',
       correctAnswers: 'true,false',
@@ -396,5 +399,5 @@ describe('QuestionDetailsComponent', () => {
     expect(component.saveQuestion).toHaveBeenCalled();
   });
 
- 
+
 });

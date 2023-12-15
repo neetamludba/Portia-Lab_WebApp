@@ -13,7 +13,7 @@ export class ConfirmUserComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private accountService: AccountService
-  ) {}
+  ) { }
 
   confirmUserForm = new FormGroup({
     newPassword: new FormControl(null, [
@@ -31,9 +31,11 @@ export class ConfirmUserComponent implements OnInit {
   confirmToken = '';
 
   ngOnInit() {
-    this.route.queryParams.subscribe((params) => {
-      this.confirmToken = params['token'];
-    });
+    if (this.route.queryParams) {
+      this.route.queryParams.subscribe((params) => {
+        this.confirmToken = params['token'];
+      });
+    }
   }
 
   onSubmit() {

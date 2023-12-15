@@ -7,6 +7,7 @@ import { AccountService } from '../account.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('ConfirmUserComponent', () => {
   let component: ConfirmUserComponent;
@@ -31,7 +32,9 @@ describe('ConfirmUserComponent', () => {
         ReactiveFormsModule, 
         MatCardModule,
         MatInputModule,
-        MatButtonModule], // Import the necessary form modules
+        MatButtonModule,
+        BrowserAnimationsModule,
+      ], // Import the necessary form modules
       providers: [
         { provide: ActivatedRoute, useValue: mockActivatedRoute }, // Provide the mock ActivatedRoute
         { provide: Router, useValue: mockRouter }, // Provide the mock Router

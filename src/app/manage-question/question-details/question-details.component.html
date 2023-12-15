@@ -69,6 +69,7 @@
   <button mat-flat-button mat-dialog-close>Cancel</button>
   <button
     mat-flat-button
+    class="save-button"
     color="primary"
     (click)="saveQuestion()"
     [disabled]="!questionDetailsForm.valid || !questionDetailsForm.dirty"

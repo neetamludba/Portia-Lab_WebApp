@@ -11,7 +11,6 @@ import { TestService } from 'app/manage-test/test.service';
 import { Answer } from 'app/models/answer.model';
 import { Question } from 'app/models/question.model';
 import { TestAttemptService } from '../test-attempt.service';
-import { TestAssignment } from 'app/models/test-assignment.model';
 import { TestAssignmentService } from 'app/manage-test-assignment/test-assignment.service';
 
 @Component({
@@ -75,7 +74,7 @@ export class TestAttemptDetailsComponent implements OnInit {
   getTest(testId: number) {
     this.testService.getTest(testId).then((test) => {
       this.questions = test.questions
-        .sort((a: Question, b: Question) => a.displayOrder - b.displayOrder)
+        .sort((a: Question, b: Question) => a.displayOrder - b.displayOrder)// to be change to random. for now...
         .slice();
       this.testName = test.description;
 

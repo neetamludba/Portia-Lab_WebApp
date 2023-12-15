@@ -3,7 +3,6 @@ import {
   FormArray,
   FormBuilder,
   FormControl,
-  FormGroup,
   Validators,
 } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -155,7 +154,7 @@ export class QuestionDetailsComponent implements OnInit {
 
     this.dialogRef.close({
       question: this.questionDetailsForm.get('question')?.value,
-      questionType: this.questionDetailsForm.get('questionType')?.value,
+      questionType: Number(this.questionDetailsForm.get('questionType')?.value),
       displayOrder: this.questionDetailsForm.get('displayOrder')?.value,
       mandatory: this.questionDetailsForm.get('mandatory')?.value,
       options: optionsData,
