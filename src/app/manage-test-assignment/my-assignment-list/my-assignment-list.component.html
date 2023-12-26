@@ -1,16 +1,12 @@
 <div class="main-content">
-  <div class="mat-elevation-z8">
+  <div class="mat-elevation-z8 card_width_minimum_desktop">
     <div class="filterBar">
       <mat-form-field>
-        <input
-          matInput
-          type="text"
-          placeholder="Filter"
-          (keyup)="doFilter($any($event).target.value)"
-        />
+        <input matInput type="text" placeholder="Filter" (keyup)="doFilter($any($event).target.value)" />
       </mat-form-field>
     </div>
     <table class="listtable" mat-table [dataSource]="dataSource" matSort>
+      <caption><strong>My MCQ's Test Assignment/Attempt List</strong></caption>
       <ng-container matColumnDef="testDescription">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>
           Test Description
@@ -30,22 +26,14 @@
       </ng-container>
 
       <ng-container matColumnDef="action">
-        <th mat-header-cell *matHeaderCellDef></th>
+        <th mat-header-cell *matHeaderCellDef>Action</th>
         <td mat-cell *matCellDef="let element">
-          <button
-            mat-flat-button
-            color="primary"
-            (click)="startNewAttempt(element.testAssignmentID)"
-            *ngIf="!element.attempted"
-          >
+          <button mat-flat-button color="primary" (click)="startNewAttempt(element.testAssignmentID)"
+            *ngIf="!element.attempted">
             New Attempt
           </button>
-          <button
-            mat-flat-button
-            color="primary"
-            (click)="viewAttempt(element.testAssignmentID)"
-            *ngIf="element.attempted"
-          >
+          <button mat-flat-button color="primary" (click)="viewAttempt(element.testAssignmentID)"
+            *ngIf="element.attempted">
             View Attempt
           </button>
         </td>

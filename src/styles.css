@@ -12,6 +12,9 @@ body {
   color: #3c4858;
 }
 
+.card_width_minimum_desktop{
+  min-width: 1080px;
+}
 .wrapper {
   position: relative;
   top: 0;
@@ -29,7 +32,7 @@ body {
 .main-content {
   display: flex;
   padding: 30px 15px;
-  min-height: calc(100vh - 123px);
+  min-height: fit-content;
 }
 
 .content_card {
