@@ -76,12 +76,9 @@ export class TestAttemptStatsComponent implements OnInit {
     await this.testAttemptService
       .getAllAttemptsForTest(testID)
       .then((attemptsDetail) => {
-        console.log({ attemptsDetail });
-        console.log(this.userID)
         if (this.userID) {
           this.attempts = attemptsDetail;
           this.attempts = this.attempts.filter((a: any) => a.userID == this.userID)
-          console.log(this.attempts);
           this.totalAttempts = this.attempts.length;
 
         }

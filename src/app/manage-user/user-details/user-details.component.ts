@@ -69,7 +69,6 @@ export class UserDetailsComponent implements OnInit {
     let errors = this.userDetailsForm.get(fieldName)?.errors;
 
     if (errors) {
-      //console.log({ fieldName }, { errors }, errors['required']);
 
       if (errors['required']) return fieldName + ' is required';
       if (errors['minlength']) return fieldName + ' must be 5 characters long';

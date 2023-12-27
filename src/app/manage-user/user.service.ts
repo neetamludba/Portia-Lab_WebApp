@@ -45,7 +45,6 @@ export class UserService {
   }
 
   async saveUser(userData: any, userId: number) {
-    // console.log({ userData });
 
     if (userId === 0) {
       return SaveService('user', {

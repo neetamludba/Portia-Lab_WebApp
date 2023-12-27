@@ -64,8 +64,7 @@ export class AccountService {
       newPassword: newPassword,
     }).then((user) => {
       // store user details and jwt token in local storage to keep user logged in between page refreshes
-      console.log({ user })
-      if (user && user.areEqual != false) {
+      if (user && user.areEqual) {
         localStorage.setItem('user', JSON.stringify(user));
         this.userSubject.next(user);
         return user;

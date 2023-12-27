@@ -31,7 +31,6 @@ export class ViewTestAttemptComponent implements OnInit {
     this.testAttemptService
       .getTestAttemptForAssignment(assignmentID)
       .then((attemptDetails) => {
-        // console.log({ attemptDetails });
 
         this.testDescription = attemptDetails.testDescription;
         this.questionsAnswers = attemptDetails.questionsAnswers.sort(

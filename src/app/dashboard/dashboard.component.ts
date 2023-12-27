@@ -31,23 +31,19 @@ export class DashboardComponent implements AfterViewInit {
 
     if (crntUser) {
       if (!isNaN(crntUser.userID) && crntUser.userID > 0) {
-        // if (crntUser.companyID === -1) {
         if (crntUser.userType === 'Admin' || crntUser.userType === 'Teacher' ||crntUser.companyID === -1) {
           {
             this.userService.getAllUsers().then((users) => {
-              // console.log({ users });
               this.users = users;
             });
 
             this.dashboardService.getAdminData().then((dashboardData) => {
-              // console.log({ dashboardData });
               this.data = dashboardData;
             });
 
             this.dashboardService
               .getCategoryWiseUsersScoreForAdmin()
               .then((categoryWiseData) => {
-                // console.log({ categoryWiseData });
                 this.categoryWiseData = categoryWiseData;
                 this.runCategoryWise = true;
               });
@@ -55,7 +51,6 @@ export class DashboardComponent implements AfterViewInit {
             this.dashboardService
               .getTestWiseUserScoresForAdmin()
               .then((testWiseData) => {
-                // console.log({ testWiseData });
                 this.testWiseData = testWiseData;
                 this.runTestWise = true;
               });
@@ -66,14 +61,12 @@ export class DashboardComponent implements AfterViewInit {
           this.dashboardService
             .getUserData(crntUser.userID)
             .then((dashboardData) => {
-              // console.log(dashboardData);
               this.data = dashboardData;
             });
 
           this.dashboardService
             .getCategoryWiseUserScore(crntUser.userID)
             .then((categoryWiseData) => {
-              // console.log({ categoryWiseData });
               this.categoryWiseData = categoryWiseData;
               this.runCategoryWise = true;
             });
@@ -81,7 +74,6 @@ export class DashboardComponent implements AfterViewInit {
           this.dashboardService
             .getTestWiseUserScoresForUser(crntUser.userID)
             .then((testWiseData) => {
-              console.log({ testWiseData });
               this.testWiseData = testWiseData;
               this.runTestWise = true;
 
@@ -209,11 +201,9 @@ export class DashboardComponent implements AfterViewInit {
   }
 
   gotoAttemptDetailOfUser(test: any, user: User) {
-    console.log(test)
     const userAssignments = test.assignments.filter(
       (a: any) => user.userID === a.assignedToID
     );
-    console.log(userAssignments)
 
     let attempted = userAssignments.length - 1
     let assignmentID = 0

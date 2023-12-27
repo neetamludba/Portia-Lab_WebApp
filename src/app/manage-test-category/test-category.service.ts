@@ -21,7 +21,6 @@ export class TestCategoryService {
   }
 
   async saveCategory(categoryData: any, categoryId: number) {
-    // console.log({ categoryData });
 
     if (categoryId === 0) {
       return SaveService('test-category', {

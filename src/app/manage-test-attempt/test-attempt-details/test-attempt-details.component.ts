@@ -106,14 +106,12 @@ export class TestAttemptDetailsComponent implements OnInit {
   submitAttempt() {
     this.loadingFinishButton = true;
     const answers = this.answersArray.controls.map((answer, index: number) => {
-      // console.log('#' + index + ': ', answer);
 
       const question = this.questions[index];
       let answerValue = '';
 
       if (question.questionType === 1) answerValue = answer.value;
       else {
-        // console.log(Object.entries(answer.value));
 
         answerValue = Object.entries(answer.value).reduce(
           (prev, crnt, index) => {
@@ -136,7 +134,6 @@ export class TestAttemptDetailsComponent implements OnInit {
       };
     });
 
-    // console.log({ answers });
 
     this.testAttenptService
       .saveTestAttempt({

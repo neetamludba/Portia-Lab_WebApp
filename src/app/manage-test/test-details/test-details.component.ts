@@ -66,7 +66,6 @@ export class TestDetailsComponent {
     let errors = this.testDetailsForm.get(fieldName)?.errors;
 
     if (errors) {
-      //console.log({ fieldName }, { errors }, errors['required']);
 
       if (errors['required']) return 'Test description is required';
       if (errors['minlength'])
@@ -124,7 +123,6 @@ export class TestDetailsComponent {
       };
     else question = this.testQuestions[questionIndex];
 
-    // console.log({ questionIndex }, { question });
 
     const dialogRef = this.dialog.open(QuestionDetailsComponent, {
       data: question,
@@ -172,9 +170,7 @@ export class TestDetailsComponent {
         this.testId
       )
       .then((testData) =>
-        this.router.navigateByUrl('/test').catch((error) => {
-          console.log(error);
-        })
+        this.router.navigateByUrl('/test')
       )
       .catch((ex) => console.log(ex));
   }

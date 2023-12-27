@@ -38,7 +38,6 @@ export class ResetPasswordComponent implements OnInit {
   ngOnInit() {
     if (this.route.snapshot.url.length >= 2) {
       this.path = this.route.snapshot.url[1].path;
-      console.log(this.path);
     }
     // this.route.queryParams.subscribe((params) => {
     //   this.resetToken = params['token'];

@@ -24,15 +24,16 @@
   flex: 1;
   justify-content: center;
   padding: 5px;
-  /* margin-left: 8px; */
 }
 
 .user_col {
   flex: 1;
   border-left: 1px solid #cdcdcd;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  padding: 8px;
+  text-align: center;
+  padding-left: 13px;
+  padding-right: 13px;
 }
 .user_col_sub_heading {
   flex: 1;
@@ -56,6 +57,10 @@
   flex: 1;
   margin-top: 8px;
   margin-bottom: 8px;
+}
+
+.mat-card{
+  display: table-caption;
 }
 
 .attempts_section {
