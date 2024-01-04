@@ -33,15 +33,12 @@ export class ResetPasswordComponent implements OnInit {
   path: any = '';
   loading = false;
   submitted = false;
-  // resetToken = '';
 
   ngOnInit() {
     if (this.route.snapshot.url.length >= 2) {
       this.path = this.route.snapshot.url[1].path;
     }
-    // this.route.queryParams.subscribe((params) => {
-    //   this.resetToken = params['token'];
-    // });
+
   }
   matchNewAndConfirmPassword() {
     if (
@@ -61,9 +58,8 @@ export class ResetPasswordComponent implements OnInit {
 
     this.accountService
       .resetPasswordByUser(
-        this.resetPasswordForm.get('oldPassword')?.value!,
+        this.resetPasswordForm.get('oldPassword')?.value,
         this.resetPasswordForm.get('newPassword')?.value,
-        // this.resetToken
       )
       .then((data) => {
         if (data) {
@@ -75,8 +71,6 @@ export class ResetPasswordComponent implements OnInit {
           this.submitted = false;
           this.router.navigateByUrl('failed-reset-password');
         }
-        // this.router.navigateByUrl('/');
-
       })
       .catch((err) => {
         this.submitted = false;
