@@ -50,7 +50,6 @@ export class TestListComponent implements AfterViewInit {
         this.testCategories = categories;
       })
       .catch((err) => console.log(err));
-      // console.log("Categories" + this.testCategories)
   }
 
   createTest() {

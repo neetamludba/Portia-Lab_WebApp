@@ -38,7 +38,6 @@ export class CategoryDetailsComponent implements OnInit {
     let errors = this.categoryDetailsForm.get(fieldName)?.errors;
 
     if (errors) {
-      //console.log({ fieldName }, { errors }, errors['required']);
 
       if (errors['required']) return 'Category name is required';
       if (errors['minlength']) return 'Category name must be 5 characters long';
@@ -56,7 +55,6 @@ export class CategoryDetailsComponent implements OnInit {
   }
 
   saveCategory() {
-    // console.log(this.categoryDetailsForm.errors);
 
     this.testCategoryService
       .saveCategory(

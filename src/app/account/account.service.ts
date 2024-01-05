@@ -32,7 +32,6 @@ export class AccountService {
       email: email,
       password: password,
     }).then((user) => {
-      // store user details and jwt token in local storage to keep user logged in between page refreshes
       localStorage.setItem('user', JSON.stringify(user));
       this.userSubject.next(user);
       return user;
@@ -50,7 +49,6 @@ export class AccountService {
       token: token,
       password: newPassword,
     }).then((user) => {
-      // store user details and jwt token in local storage to keep user logged in between page refreshes
       localStorage.setItem('user', JSON.stringify(user));
       this.userSubject.next(user);
       return user;
@@ -63,9 +61,7 @@ export class AccountService {
       oldPassword: oldPassword,
       newPassword: newPassword,
     }).then((user) => {
-      // store user details and jwt token in local storage to keep user logged in between page refreshes
-      console.log({ user })
-      if (user && user.areEqual != false) {
+      if (user.userObject) {
         localStorage.setItem('user', JSON.stringify(user));
         this.userSubject.next(user);
         return user;
@@ -75,7 +71,6 @@ export class AccountService {
   }
 
   async logout() {
-    // remove user from local storage and set current user to null
     localStorage.removeItem('user');
     this.userSubject.next(null);
     this.router.navigateByUrl('account/login');

@@ -42,7 +42,6 @@ export class TestAssignmentListComponent implements AfterViewInit {
   async getTest(testID: number) {
     try {
       const test = await this.assignmentService.getTest(testID);
-      console.log({ test });
       this.testName = test.description;
       
       // After getting test data, apply the filter if necessary
@@ -55,7 +54,6 @@ export class TestAssignmentListComponent implements AfterViewInit {
   async getAssignments(testID: number) {
     try {
       const assignments = await this.assignmentService.getAllAssignmentsForTest(testID);
-      console.log({ assignments });
       
       this.dataSource = new MatTableDataSource<TestAssignment>(assignments);
       this.dataSource.sort = this.sort;
@@ -74,7 +72,6 @@ export class TestAssignmentListComponent implements AfterViewInit {
       // Retrieve the user name from the query parameters
       const userName = decodeURIComponent(params['user']);
       // Call the filter method with the user name
-      console.log(userName);
       this.doFilter(userName);
     }
   }
@@ -95,7 +92,6 @@ export class TestAssignmentListComponent implements AfterViewInit {
 
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result) {
-        // console.log({ result });
 
         this.assignmentService
           .addAssignment({

@@ -60,7 +60,6 @@ export class QuestionDetailsComponent implements OnInit {
     let errors = this.questionDetailsForm.get(fieldName)?.errors;
 
     if (errors) {
-      //console.log({ fieldName }, { errors }, errors['required']);
 
       if (errors['required']) return 'Test description is required';
       if (errors['minlength'])
@@ -104,7 +103,6 @@ export class QuestionDetailsComponent implements OnInit {
   addOption(optionValue = '', correctAns = false) {
     const optionForm = this.formBuilder.group({
       value: [optionValue, [Validators.required,
-        // Validators.minLength(5)
       ]],
       correctAnswer: [correctAns],
     });
@@ -132,13 +130,11 @@ export class QuestionDetailsComponent implements OnInit {
       })
       .join(',');
 
-    // console.log(optionsData, correctAnswersData);
 
     if (
       this.questionDetailsForm.get('questionType')?.value === '1' &&
       trueCount !== 1
     ) {
-      // console.log('wrong: ', trueCount);
       this.errorMessage = 'Please select one correct option.';
       return;
     }
@@ -147,7 +143,6 @@ export class QuestionDetailsComponent implements OnInit {
       this.questionDetailsForm.get('questionType')?.value === '2' &&
       trueCount === 0
     ) {
-      // console.log('wrong: ', trueCount);
       this.errorMessage = 'Please select atleast one correct option.';
       return;
     }

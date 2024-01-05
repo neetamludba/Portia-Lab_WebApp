@@ -49,7 +49,7 @@ export class NavbarComponent implements OnInit {
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(() => {
-        var rt = this.getChild(this.activatedRoute);
+        let rt = this.getChild(this.activatedRoute);
 
         rt.data.subscribe((data) => {
           this.currentPageTitle = data['title'] ?? 'Page Title';
@@ -90,10 +90,8 @@ export class NavbarComponent implements OnInit {
     const userString = localStorage.getItem('user');
     if (userString) {
       const userObject = JSON.parse(userString);
-      // console.log(userObject)
       if (userObject) {
         this.userName = userObject.userObject.firstName + ' ' + userObject.userObject.lastName;
-        // console.log(this.userName)
       } else {
       }
     } else {

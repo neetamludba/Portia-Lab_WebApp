@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AccountService } from '../account.service';
@@ -8,7 +8,7 @@ import { AccountService } from '../account.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -30,12 +30,6 @@ export class LoginComponent implements OnInit {
   loading = false;
   submitted = false;
 
-  ngOnInit() {}
-
-  // // convenience getter for easy access to form fields
-  // get f() {
-  //   return this.loginForm.controls;
-  // }
 
   onSubmit() {
     this.submitted = true;

@@ -1,0 +1,21 @@
+
+.top_space{
+    margin-top:15% ;
+}
+
+.card-header {
+    text-align: center;
+}
+
+.welcome-header {
+    text-shadow: 2em;
+    font-weight: bolder;
+    font-size: 20px;
+}
+
+.loginForm {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+}

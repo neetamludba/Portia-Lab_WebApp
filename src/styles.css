@@ -3,7 +3,7 @@
 html,
 body {
   height: 100%;
-  font-family: "Roboto";
+  font-family: "Roboto", sans-serif;
 }
 
 body {
@@ -94,12 +94,10 @@ td.mat-cell.cdk-cell {
   margin: 16px;
   display: flex;
   flex-direction: row;
-  /* justify-content: space-between;*/
   align-items: center;
 }
 
 .questionIndexCol {
-  /* width: 30px; */
   flex: 0 0 30px;
   font-weight: bold;
   vertical-align: middle;
